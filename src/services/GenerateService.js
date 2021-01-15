@@ -11,7 +11,6 @@ class GenerateService {
       });
   }
   deleteToken(token) {
-    console.log(token);
     return API().post("/api/deleteUrl", token);
   }
 }

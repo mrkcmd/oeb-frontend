@@ -35,12 +35,10 @@ export default {
     generate() {
       GenerateService.generateUrl().then(() => {
         let storageToken = JSON.parse(localStorage.getItem("token")).token;
-        console.log(storageToken);
         let generateUrlRegister = this.$router.resolve({
           name: "Register",
           params: { token: storageToken }
         });
-        console.log(generateUrlRegister);
         window.open(generateUrlRegister.href, "_blank");
       });
     }
