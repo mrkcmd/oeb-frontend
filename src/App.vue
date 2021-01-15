@@ -16,7 +16,7 @@
         </div>
         <v-spacer></v-spacer>
         <div class="hidden-sm-and-down">
-          <v-row v-if="loggedIn" class="mr-6">
+          <v-row v-if="currentUser" class="mr-6">
             <div>
               <v-menu open-on-hover bottom offset-y>
                 <template v-slot:activator="{ on, attrs }">
@@ -90,9 +90,6 @@ export default {
     }
   },
   computed: {
-    loggedIn() {
-      return this.$store.state.auth.status.loggedIn;
-    },
     currentUser() {
       return this.$store.state.auth.user;
     },
