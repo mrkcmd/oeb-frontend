@@ -15,8 +15,12 @@ class UserService {
         return res.data;
       });
   }
-  signout() {
-    localStorage.removeItem("user");
+  signout(user) {
+    return API()
+      .post("/api/auth/logout", user)
+      .then(() => {
+        localStorage.removeItem("user");
+      });
   }
 }
 export default new UserService();

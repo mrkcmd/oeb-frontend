@@ -1,8 +1,18 @@
 import API from "@/services/API";
 
 class GenerateService {
-  generateUrl(username) {
-    return API().post("", username);
+  generateUrl() {
+    return API()
+      .post("/api/generateUrl")
+      .then(res => {
+        if (res.data.token) {
+          localStorage.setItem("token", JSON.stringify(res.data));
+        }
+      });
+  }
+  deleteToken(token) {
+    console.log(token);
+    return API().post("/api/deleteUrl", token);
   }
 }
 export default new GenerateService();

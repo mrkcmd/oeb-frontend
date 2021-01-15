@@ -95,7 +95,8 @@
 </template>
 
 <script>
-import GenerateService from "@/services/GenerateService";
+import GenerateService from "@/services/GenerateService.js";
+
 export default {
   data() {
     return {
@@ -103,7 +104,8 @@ export default {
         firstname: "",
         lastname: "",
         email: "",
-        password: ""
+        password: "",
+        token: ""
       },
       firstnameRules: [v => !!v || "Please enter your firstname."],
       lastnameRules: [v => !!v || "Please enter your lastname."],
@@ -127,34 +129,32 @@ export default {
       this.message = null;
       if (this.$refs.form.validate()) {
         this.loading = true;
-        if (this.checkToken()) {
-          this.$store.dispatch("auth/signup", this.register).then(
-            data => {
-              this.dialog = true;
-              this.message = data.message;
-              this.loading = false;
-              this.failed = false;
-              GenerateService.deleteToken(this.$route.params.token);
-            },
-            error => {
-              this.message =
-                (error.response && error.response.data.message) ||
-                error.message ||
-                error.toString();
-              this.loading = false;
-              this.failed = true;
-            }
-          );
-        }
+        this.$store.dispatch("auth/signup", this.register).then(
+          data => {
+            this.dialog = true;
+            this.message = data.message;
+            this.loading = false;
+            this.failed = false;
+            GenerateService.deleteToken(this.register);
+          },
+          error => {
+            this.message =
+              (error.response && error.response.data.message) ||
+              error.message ||
+              error.toString();
+            this.loading = false;
+            this.failed = true;
+          }
+        );
       }
     },
     sendLogin() {
       this.dialog = false;
       this.$router.push("/login");
-    },
-    checkToken() {
-      return GenerateService.checkToken(this.$route.params.token);
     }
+  },
+  mounted() {
+    this.register.token = this.$route.params.token;
   }
 };
 </script>

@@ -26,23 +26,23 @@
 </template>
 
 <script>
-import GenerateService from "@/services/GenerateService";
+import GenerateService from "@/services/GenerateService.js";
 export default {
   data() {
-    return {
-      token: ""
-    };
+    return {};
   },
   methods: {
     generate() {
-      GenerateService.generateUrl(this.$store.state.auth.user.email).then(
-        response => {
-          this.token = response;
-        }
-      );
-      if (this.token) {
-        window.open("http://localhost:8081/register/" + this.token);
-      }
+      GenerateService.generateUrl().then(() => {
+        let storageToken = JSON.parse(localStorage.getItem("token")).token;
+        console.log(storageToken);
+        let generateUrlRegister = this.$router.resolve({
+          name: "Register",
+          params: { token: storageToken }
+        });
+        console.log(generateUrlRegister);
+        window.open(generateUrlRegister.href, "_blank");
+      });
     }
   }
 };

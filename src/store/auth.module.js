@@ -34,8 +34,8 @@ export const auth = {
         }
       );
     },
-    signout({ commit }) {
-      AuthService.signout();
+    signout({ commit }, user) {
+      AuthService.signout(user);
       commit("signout");
     }
   },
