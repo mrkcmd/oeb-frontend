@@ -48,11 +48,11 @@ export default {
       desserts: [
         {
           count: 1,
-          name: "หนังสือ Yogurt"
+          name: "Yogurt"
         },
         {
           count: 2,
-          name: "หนังสือ Ice cream sandwich"
+          name: "Ice cream sandwich"
         },
         {
           count: 3,
