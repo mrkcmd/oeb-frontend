@@ -37,6 +37,10 @@ export const auth = {
     signout({ commit }, user) {
       AuthService.signout(user);
       commit("signout");
+    },
+    autologout({ commit }, user) {
+      AuthService.autologout(user);
+      commit("autologout");
     }
   },
   mutations: {
@@ -55,6 +59,10 @@ export const auth = {
       state.user = null;
     },
     signout(state) {
+      state.status.loggedIn = false;
+      state.user = null;
+    },
+    autologout(state) {
       state.status.loggedIn = false;
       state.user = null;
     }

@@ -24,10 +24,14 @@ const routes = [
     name: "Permission",
     component: Permission,
     beforeEnter: (to, from, next) => {
-      if (store.state.auth.user.roles.includes("ROLE_ADMIN")) {
-        next();
+      if (store.state.auth.user) {
+        if (store.state.auth.user.roles.includes("ROLE_ADMIN")) {
+          next();
+        } else {
+          next("/");
+        }
       } else {
-        next("/");
+        next("/login");
       }
     }
   },
@@ -41,10 +45,14 @@ const routes = [
     name: "Generate",
     component: Generate,
     beforeEnter: (to, from, next) => {
-      if (store.state.auth.user.roles.includes("ROLE_ADMIN")) {
-        next();
+      if (store.state.auth.user) {
+        if (store.state.auth.user.roles.includes("ROLE_ADMIN")) {
+          next();
+        } else {
+          next("/");
+        }
       } else {
-        next("/");
+        next("/login");
       }
     }
   }

@@ -65,39 +65,55 @@ export default {
         {
           count: 5,
           name: "Gingerbread"
-        },
-        {
-          count: 6,
-          name: "Jelly bean"
-        },
-        {
-          count: 7,
-          name: "Lollipop"
-        },
-        {
-          count: 8,
-          name: "Honeycomb"
-        },
-        {
-          count: 9,
-          name: "Donut"
-        },
-        {
-          count: 10,
-          name: "KitKat"
         }
-      ]
+      ],
+      logoutTimer: ""
     };
   },
   computed: {
     currentUser() {
       return this.$store.state.auth.user;
+    },
+    isAdmin() {
+      if (this.currentUser && this.currentUser.roles) {
+        return this.currentUser.roles.includes("ROLE_ADMIN");
+      }
+      return false;
     }
   },
   mounted() {
     if (!this.currentUser) {
       this.$router.push("/login");
     }
+    if (this.currentUser && this.currentUser.roles && this.isAdmin === false) {
+      this.setTimers();
+    }
+  },
+  methods: {
+    setTimers() {
+      this.logoutTimer = setTimeout(() => {
+        this.signout();
+      }, 1000 * 60 * 60);
+    },
+
+    signout() {
+      this.$store.dispatch("auth/autologout", this.currentUser).then(() => {
+        this.$router.push("/login").catch(() => {});
+      });
+    },
+
+    resetTimer() {
+      clearTimeout(this.logoutTimer);
+
+      this.setTimers();
+    },
+
+    downloadFile() {
+      this.resetTimer();
+    }
+  },
+  created() {
+    window.addEventListener("unload", this.signout);
   }
 };
 </script>

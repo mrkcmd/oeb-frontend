@@ -22,5 +22,12 @@ class UserService {
         localStorage.removeItem("user");
       });
   }
+  autologout(user) {
+    return API()
+      .post("/api/auth/autologout", user)
+      .then(() => {
+        localStorage.removeItem("user");
+      });
+  }
 }
 export default new UserService();
