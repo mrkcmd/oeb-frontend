@@ -16,7 +16,16 @@
                       :items="users"
                       outlined
                       label="User"
-                    ></v-autocomplete>
+                    >
+                      <template #selection="{ item }">
+                        <div
+                          light
+                          color="secondary lighten-4 black--text text-h1"
+                        >
+                          {{ item }}
+                        </div></template
+                      >
+                    </v-autocomplete>
 
                     <v-autocomplete
                       v-model="values"
@@ -26,9 +35,11 @@
                       multiple
                     >
                       <template #selection="{ item }">
-                        <v-chip light color="secondary lighten-4 black--text">{{
-                          item
-                        }}</v-chip>
+                        <v-chip
+                          light
+                          color="secondary lighten-4 black--text text-subtitle-1"
+                          >{{ item }}</v-chip
+                        >
                       </template>
                     </v-autocomplete>
                   </v-form>
