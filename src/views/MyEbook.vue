@@ -6,7 +6,7 @@
           <v-col>
             <div class="text-center text-h4 primary--text mb-6">
               <strong>
-                รายการ E-book
+                รายการ E-book ของฉัน
               </strong>
             </div>
             <v-card elevation="6">
@@ -40,10 +40,10 @@ export default {
       search: "",
       headers: [
         { text: "No", value: "count", align: "start" },
-        { text: "รายการ", value: "name" },
-        { text: "วันที่ซื้อ", value: "carbs" },
-        { text: "ดาวน์โหลด", value: "protein" },
-        { text: "จำนวนครั้งที่ดาวน์โหลด", value: "iron" }
+        { text: "รายการ", value: "name", align: "start" },
+        { text: "วันที่ซื้อ", value: "carbs", align: "start" },
+        { text: "ดาวน์โหลด", value: "protein", align: "start" },
+        { text: "จำนวนครั้งที่ดาวน์โหลด", value: "iron", align: "start" }
       ],
       desserts: [
         {
@@ -88,6 +88,16 @@ export default {
         }
       ]
     };
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    }
+  },
+  mounted() {
+    if (!this.currentUser) {
+      this.$router.push("/login");
+    }
   }
 };
 </script>

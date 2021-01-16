@@ -83,7 +83,7 @@ export default {
         this.$store.dispatch("auth/signin", this.user).then(
           () => {
             this.loading = false;
-            this.$router.push("/");
+            this.$router.push("/my-ebook");
           },
           error => {
             this.loading = false;
@@ -103,7 +103,7 @@ export default {
   },
   mounted() {
     if (this.loggedIn) {
-      this.$router.push("/");
+      this.$router.push("/my-ebook");
     }
   }
 };

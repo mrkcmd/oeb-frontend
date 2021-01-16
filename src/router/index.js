@@ -1,35 +1,40 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Ebook from "../views/Ebook.vue";
+import MyEbook from "../views/MyEbook.vue";
+import Permission from "@/components/Permission.vue";
 import Login from "@/components/Login.vue";
 import Register from "@/components/Register.vue";
 import Generate from "@/components/GenerateUrl.vue";
 import store from "@/store/index";
-
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Ebook",
-    component: Ebook
+    component: Login
   },
   {
     path: "/login",
     name: "Login",
     component: Login
   },
+  { path: "/my-ebook", name: "MyEbook", component: MyEbook },
+  {
+    path: "/permission",
+    name: "Permission",
+    component: Permission,
+    beforeEnter: (to, from, next) => {
+      if (store.state.auth.user.roles.includes("ROLE_ADMIN")) {
+        next();
+      } else {
+        next("/");
+      }
+    }
+  },
   {
     path: "/register/:token",
     name: "Register",
-    component: Register,
-    beforeEnter: (to, from, next) => {
-      if (localStorage.getItem("token")) {
-        next();
-      } else {
-        next("login");
-      }
-    }
+    component: Register
   },
   {
     path: "/generate",
@@ -40,16 +45,6 @@ const routes = [
         next();
       } else {
         next("/");
-      }
-    },
-    beforeRouteLeave(to, from, next) {
-      const answer = window.confirm(
-        "Do you really want to leave? you have unsaved changes!"
-      );
-      if (answer) {
-        next();
-      } else {
-        next(false);
       }
     }
   }

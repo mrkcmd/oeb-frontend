@@ -5,15 +5,9 @@
         <v-toolbar-title
           class="ml-6"
           style="cursor:pointer"
-          @click="$router.push('/')"
+          @click="$router.push('/').catch(() => {})"
           ><strong>E-book Online</strong></v-toolbar-title
         >
-
-        <div class="hidden-sm-and-down">
-          <!-- <v-btn elevation="0" color="secondary" class="">
-            <v-icon>fas fa-user</v-icon>
-          </v-btn> -->
-        </div>
         <v-spacer></v-spacer>
         <div class="hidden-sm-and-down">
           <v-row v-if="currentUser" class="mr-6">
@@ -27,23 +21,60 @@
                     dark
                     v-bind="attrs"
                     v-on="on"
+                    v-if="isAdmin"
                   >
-                    บัญชีของ {{ currentUser.email }}
+                    Admin : {{ currentUser.email }}
+                    <v-icon small class="ml-2">fa fa-caret-down</v-icon>
+                  </div>
+                  <div
+                    class="text-subtitle2 mr-4  d-flex align-center mt-3"
+                    align="center"
+                    color="primary"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    v-else
+                  >
+                    My Account : {{ currentUser.email }}
                     <v-icon small class="ml-2">fa fa-caret-down</v-icon>
                   </div>
                 </template>
 
                 <v-list>
                   <v-list-item v-if="isAdmin">
-                    <v-btn width="100%" text @click="$router.push('/generate')"
-                      ><v-icon small class="mr-2">fa fa-user-plus</v-icon> new
-                      user</v-btn
+                    <v-btn
+                      width="100%"
+                      class="d-flex justify-start"
+                      text
+                      @click="$router.push('/generate').catch(() => {})"
+                      ><v-icon small class="mr-2">fa fa-user-plus</v-icon>add
+                      new user</v-btn
                     >
                   </v-list-item>
                   <v-divider v-if="isAdmin" class="mx-2"></v-divider>
+                  <v-list-item v-if="isAdmin">
+                    <v-btn
+                      width="100%"
+                      class="d-flex justify-start"
+                      text
+                      @click="$router.push('/permission').catch(() => {})"
+                      ><v-icon small class="mr-3">fas fa-book</v-icon>
+                      Permission e-book
+                    </v-btn>
+                  </v-list-item>
+                  <v-list-item v-if="!isAdmin">
+                    <v-list-item-title
+                      @click="$router.push('/my-ebook').catch(() => {})"
+                      ><v-btn text width="100%" class="d-flex justify-start"
+                        ><v-icon small class="mr-2">fas fa-book</v-icon> MY
+                        E-book</v-btn
+                      ></v-list-item-title
+                    >
+                  </v-list-item>
+                  <v-divider class="mx-2"></v-divider>
                   <v-list-item>
                     <v-list-item-title @click="signout()"
-                      ><v-btn text width="100%"
+                      ><v-btn text width="100%" class="d-flex justify-start"
                         ><v-icon small class="mr-2">fas fa-sign-out-alt</v-icon>
                         Sign out</v-btn
                       ></v-list-item-title
@@ -61,16 +92,98 @@
           </v-row>
 
           <v-row v-else class="mr-6">
-            <v-btn text @click="$router.push('/login')">เข้าสู่ระบบ</v-btn>
+            <v-btn text @click="$router.push('/login').catch(() => {})"
+              >Login</v-btn
+            >
           </v-row>
         </div>
         <div class="hidden-md-and-up">
-          <v-app-bar-nav-icon></v-app-bar-nav-icon>
+          <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
         </div>
       </v-toolbar>
     </v-card>
+    <v-navigation-drawer
+      v-model="drawer"
+      bottom
+      temporary
+      app
+      dark
+      class="hidden-md-and-up primary"
+    >
+      <div v-if="currentUser">
+        <v-list nav>
+          <div
+            class="text-h6 d-flex justify-start mt-3 ml-4"
+            dark
+            v-if="isAdmin"
+          >
+            Admin : {{ currentUser.email }}
+          </div>
+
+          <div class="text-h6 d-flex justify-start mt-3 ml-4" dark v-else>
+            My Account : {{ currentUser.email }}
+          </div>
+          <v-divider class="mt-3"></v-divider>
+
+          <v-list-item v-if="isAdmin">
+            <v-btn
+              width="100%"
+              class="d-flex justify-start"
+              text
+              @click="$router.push('/generate').catch(() => {})"
+              ><v-icon small class="mr-2">fa fa-user-plus</v-icon>add new
+              user</v-btn
+            >
+          </v-list-item>
+          <v-divider v-if="isAdmin" class="mx-2"></v-divider>
+          <v-list-item v-if="isAdmin">
+            <v-btn
+              width="100%"
+              class="d-flex justify-start"
+              text
+              @click="$router.push('/permission').catch(() => {})"
+              ><v-icon small class="mr-3">fas fa-book</v-icon>
+              Permission e-book
+            </v-btn>
+          </v-list-item>
+          <v-list-item v-if="!isAdmin">
+            <v-list-item-title
+              @click="$router.push('/my-ebook').catch(() => {})"
+              ><v-btn text width="100%" class="d-flex justify-start"
+                ><v-icon small class="mr-2">fas fa-book</v-icon> MY
+                E-book</v-btn
+              ></v-list-item-title
+            >
+          </v-list-item>
+          <v-divider class="mx-2"></v-divider>
+          <v-list-item>
+            <v-list-item-title @click="signout()"
+              ><v-btn text width="100%" class="d-flex justify-start"
+                ><v-icon small class="mr-2">fas fa-sign-out-alt</v-icon> Sign
+                out</v-btn
+              ></v-list-item-title
+            >
+          </v-list-item>
+          <v-divider></v-divider>
+        </v-list>
+      </div>
+      <div v-else>
+        <v-list nav>
+          <v-list-item>
+            <v-btn
+              text
+              width="100%"
+              @click="$router.push('/login').catch(() => {})"
+              >Login</v-btn
+            >
+          </v-list-item>
+          <v-divider></v-divider>
+        </v-list>
+      </div>
+    </v-navigation-drawer>
     <v-main>
       <router-view></router-view>
+      
     </v-main>
   </v-app>
 </template>
@@ -80,12 +193,18 @@ export default {
   name: "App",
 
   data() {
-    return {};
+    return {
+      drawer: false,
+      items: [
+        { title: "Home", icon: "mdi-view-dashboard" },
+        { title: "About", icon: "mdi-forum" }
+      ]
+    };
   },
   methods: {
     signout() {
       this.$store.dispatch("auth/signout", this.currentUser).then(() => {
-        this.$router.push("/login");
+        this.$router.push("/login").catch(() => {});
       });
     }
   },
@@ -102,3 +221,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.v-navigation-drawer {
+  will-change: initial;
+}
+</style>
