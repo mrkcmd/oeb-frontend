@@ -12,40 +12,37 @@
                   </div>
                   <v-form ref="form" class="mx-12 mt-10">
                     <v-autocomplete
-                      v-model="user"
-                      :items="users"
+                      :items="accountList"
+                      item-text="email"
+                      item-value="id"
+                      v-model="ebooks.account"
+                      return-object
                       outlined
                       label="User"
+                      :rules="ebooksRules"
                     >
                       <template #selection="{ item }">
                         <div
                           light
                           color="secondary lighten-4 black--text text-h1"
                         >
-                          {{ item }}
+                          {{ item.email }}
                         </div></template
                       >
                     </v-autocomplete>
 
                     <v-autocomplete
-                      v-model="values"
-                      :items="items"
+                      :items="ebookList"
+                      v-model="ebooks.ebook"
                       outlined
                       label="E-book"
-                      multiple
+                      :rules="ebooksRules"
                     >
-                      <template #selection="{ item }">
-                        <v-chip
-                          light
-                          color="secondary lighten-4 black--text text-subtitle-1"
-                          >{{ item }}</v-chip
-                        >
-                      </template>
                     </v-autocomplete>
                   </v-form>
                 </v-card-text>
                 <div class="text-center mt-3 mb-6">
-                  <v-btn color="primary" @click="generate()">
+                  <v-btn color="primary" @click.stop="confirmDialog()">
                     Add permission
                   </v-btn>
                 </div>
@@ -53,26 +50,85 @@
             </v-row>
           </v-card>
         </v-col>
+        <v-dialog v-model="dialog" max-width="415">
+          <v-card>
+            <v-card-title class="headline">
+              Confirm
+            </v-card-title>
+
+            <v-card-text class="text-body-1 font-weight-medium">
+              Do you want to add
+              <div class="d-inline-block info--text">{{ ebooks.ebook }}</div>
+              for
+              <div class="d-inline-block info--text">
+                {{ ebooks.account.email }}
+              </div>
+              ?
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+
+              <v-btn color="grey darken-1" text @click="dialog = false">
+                Cancel
+              </v-btn>
+
+              <v-btn color="green darken-1" text @click="addPermission()">
+                Confirm
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-row>
     </v-container>
   </div>
 </template>
 
 <script>
+import PermissionService from "@/services/PermissionService";
 export default {
   data() {
     return {
-      users: ["Mark", "Frank", "Chin", "Tan", "Wan"],
-      items: [
+      dialog: "",
+      ebooks: {
+        account: "",
+        ebook: ""
+      },
+
+      accountList: [],
+      ebookList: [
         "Yogurt",
         "Ice cream sandwich",
         "Eclair",
         "Cupcake",
         "Gingerbread"
       ],
-      values: [],
-      user: ""
+      ebooksRules: [v => !!v || "Required"]
     };
+  },
+  methods: {
+    retrieveAccounts() {
+      PermissionService.getAccounts()
+        .then(res => {
+          this.accountList = res.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    addPermission() {
+      console.log(this.ebooks);
+      this.dialog = false;
+    },
+    confirmDialog() {
+      if (this.$refs.form.validate()) {
+        this.dialog = true;
+      }
+    }
+  },
+
+  mounted() {
+    this.retrieveAccounts();
   }
 };
 </script>
