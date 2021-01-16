@@ -125,10 +125,10 @@
           </div>
           <v-divider class="mt-3"></v-divider>
 
-          <v-list-item v-if="isAdmin">
+          <v-list-item v-if="isAdmin" class="white">
             <v-btn
               width="100%"
-              class="d-flex justify-start"
+              class="d-flex justify-start primary--text"
               text
               @click="$router.push('/generate').catch(() => {})"
               ><v-icon small class="mr-2">fa fa-user-plus</v-icon>add new
@@ -136,29 +136,35 @@
             >
           </v-list-item>
           <v-divider v-if="isAdmin" class="mx-2"></v-divider>
-          <v-list-item v-if="isAdmin">
+          <v-list-item v-if="isAdmin" class="white">
             <v-btn
               width="100%"
-              class="d-flex justify-start"
+              class="d-flex justify-start primary--text"
               text
               @click="$router.push('/permission').catch(() => {})"
-              ><v-icon small class="mr-3">fas fa-book</v-icon>
+              ><v-icon small class="mr-3 ">fas fa-book</v-icon>
               Permission e-book
             </v-btn>
           </v-list-item>
-          <v-list-item v-if="!isAdmin">
+          <v-list-item v-if="!isAdmin" class="white">
             <v-list-item-title
               @click="$router.push('/my-ebook').catch(() => {})"
-              ><v-btn text width="100%" class="d-flex justify-start"
+              ><v-btn
+                text
+                width="100%"
+                class="d-flex justify-start primary--text"
                 ><v-icon small class="mr-2">fas fa-book</v-icon> MY
                 E-book</v-btn
               ></v-list-item-title
             >
           </v-list-item>
           <v-divider class="mx-2"></v-divider>
-          <v-list-item>
+          <v-list-item class="white">
             <v-list-item-title @click="signout()"
-              ><v-btn text width="100%" class="d-flex justify-start"
+              ><v-btn
+                text
+                width="100%"
+                class="d-flex justify-start primary--text"
                 ><v-icon small class="mr-2">fas fa-sign-out-alt</v-icon> Sign
                 out</v-btn
               ></v-list-item-title
@@ -169,10 +175,11 @@
       </div>
       <div v-else>
         <v-list nav>
-          <v-list-item>
+          <v-list-item class="white">
             <v-btn
               text
               width="100%"
+              class="primary--text"
               @click="$router.push('/login').catch(() => {})"
               >Login</v-btn
             >
