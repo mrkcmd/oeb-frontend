@@ -5,6 +5,7 @@ import Permission from "@/components/Permission.vue";
 import Login from "@/components/Login.vue";
 import Register from "@/components/Register.vue";
 import Generate from "@/components/GenerateUrl.vue";
+import UserDownload from "@/components/UserDownload.vue";
 import store from "@/store/index";
 Vue.use(VueRouter);
 
@@ -18,7 +19,22 @@ const routes = [
     name: "Login",
     component: Login
   },
-  { path: "/my-ebook", name: "MyEbook", component: MyEbook },
+  {
+    path: "/my-ebook",
+    name: "MyEbook",
+    component: MyEbook,
+    beforeEnter: (to, from, next) => {
+      if (store.state.auth.user) {
+        if (store.state.auth.user.roles.includes("ROLE_ADMIN")) {
+          next("/user-download");
+        } else {
+          next();
+        }
+      } else {
+        next("/login");
+      }
+    }
+  },
   {
     path: "/permission",
     name: "Permission",
@@ -44,6 +60,22 @@ const routes = [
     path: "/generate",
     name: "Generate",
     component: Generate,
+    beforeEnter: (to, from, next) => {
+      if (store.state.auth.user) {
+        if (store.state.auth.user.roles.includes("ROLE_ADMIN")) {
+          next();
+        } else {
+          next("/");
+        }
+      } else {
+        next("/login");
+      }
+    }
+  },
+  {
+    path: "/user-download",
+    name: "UserDownload",
+    component: UserDownload,
     beforeEnter: (to, from, next) => {
       if (store.state.auth.user) {
         if (store.state.auth.user.roles.includes("ROLE_ADMIN")) {

@@ -150,7 +150,7 @@ export default {
     },
     sendLogin() {
       this.dialog = false;
-      this.$router.push("/login");
+      this.$router.push("/login").catch(() => {});
     }
   },
   mounted() {

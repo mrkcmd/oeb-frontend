@@ -200,11 +200,7 @@ export default {
 
   data() {
     return {
-      drawer: false,
-      items: [
-        { title: "Home", icon: "mdi-view-dashboard" },
-        { title: "About", icon: "mdi-forum" }
-      ]
+      drawer: false
     };
   },
   methods: {

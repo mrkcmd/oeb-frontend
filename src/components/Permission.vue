@@ -33,7 +33,7 @@
 
                     <v-autocomplete
                       :items="ebookList"
-                      v-model="ebooks.ebook"
+                      v-model="ebooks.name"
                       outlined
                       label="E-book"
                       :rules="ebooksRules"
@@ -50,7 +50,7 @@
             </v-row>
           </v-card>
         </v-col>
-        <v-dialog v-model="dialog" max-width="415">
+        <v-dialog v-model="dialog" max-width="480">
           <v-card>
             <v-card-title class="headline">
               Confirm
@@ -58,11 +58,9 @@
 
             <v-card-text class="text-body-1 font-weight-medium">
               Do you want to add
-              <div class="d-inline-block info--text">{{ ebooks.ebook }}</div>
+              <span class="info--text">{{ ebooks.name }}</span>
               for
-              <div class="d-inline-block info--text">
-                {{ ebooks.account.email }}
-              </div>
+              <span class="info--text"> {{ ebooks.account.email }}</span>
               ?
             </v-card-text>
 
@@ -92,17 +90,11 @@ export default {
       dialog: "",
       ebooks: {
         account: "",
-        ebook: ""
+        name: ""
       },
 
       accountList: [],
-      ebookList: [
-        "Yogurt",
-        "Ice cream sandwich",
-        "Eclair",
-        "Cupcake",
-        "Gingerbread"
-      ],
+      ebookList: [],
       ebooksRules: [v => !!v || "Required"]
     };
   },
@@ -116,9 +108,19 @@ export default {
           console.log(error);
         });
     },
+    retrieveEbooks() {
+      PermissionService.getEbooks()
+        .then(res => {
+          this.ebookList = res.data.listData;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     addPermission() {
-      console.log(this.ebooks);
-      this.dialog = false;
+      PermissionService.addEbook(this.ebooks).then(() => {
+        this.dialog = false;
+      });
     },
     confirmDialog() {
       if (this.$refs.form.validate()) {
@@ -129,6 +131,7 @@ export default {
 
   mounted() {
     this.retrieveAccounts();
+    this.retrieveEbooks();
   }
 };
 </script>

@@ -22,7 +22,7 @@
               </v-card-title>
               <v-data-table
                 :headers="headers"
-                :items="desserts"
+                :items="ebookList"
                 :search="search"
               ></v-data-table>
             </v-card>
@@ -34,40 +34,21 @@
 </template>
 
 <script>
+import EbookService from "@/services/EbookService";
 export default {
   data() {
     return {
       search: "",
       headers: [
-        { text: "No", value: "count", align: "start" },
-        { text: "รายการ", value: "name", align: "start" },
-        { text: "วันที่ซื้อ", value: "carbs", align: "start" },
-        { text: "ดาวน์โหลด", value: "protein", align: "start" },
-        { text: "จำนวนครั้งที่ดาวน์โหลด", value: "iron", align: "start" }
+        { text: "No", value: "count", align: "center" },
+        { text: "Name", value: "name", align: "start" },
+        { text: "Purchased", value: "carbs", align: "start" },
+        { text: "Download", value: "protein", align: "start" },
+        { text: "Number of downloads", value: "iron", align: "start" }
       ],
-      desserts: [
-        {
-          count: 1,
-          name: "Yogurt"
-        },
-        {
-          count: 2,
-          name: "Ice cream sandwich"
-        },
-        {
-          count: 3,
-          name: "Eclair"
-        },
-        {
-          count: 4,
-          name: "Cupcake"
-        },
-        {
-          count: 5,
-          name: "Gingerbread"
-        }
-      ],
-      logoutTimer: ""
+      ebookList: [{}],
+      logoutTimer: "",
+      account: {}
     };
   },
   computed: {
@@ -83,13 +64,26 @@ export default {
   },
   mounted() {
     if (!this.currentUser) {
-      this.$router.push("/login");
+      this.$router.push("/login").catch(() => {});
     }
     if (this.currentUser && this.currentUser.roles && this.isAdmin === false) {
+      this.account = this.currentUser;
+      console.log(this.account);
       this.setTimers();
     }
+    this.retrieveEbooks();
   },
   methods: {
+    retrieveEbooks() {
+      EbookService.getEbook(this.account).then(res => {
+        var count = 1;
+        this.ebookList = res.data;
+        this.ebookList.map(ebook => {
+          ebook.count = count;
+          count++;
+        });
+      });
+    },
     setTimers() {
       this.logoutTimer = setTimeout(() => {
         this.signout();

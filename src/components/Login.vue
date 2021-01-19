@@ -83,7 +83,11 @@ export default {
         this.$store.dispatch("auth/signin", this.user).then(
           () => {
             this.loading = false;
-            this.$router.push("/my-ebook");
+            if (this.isAdmin) {
+              this.$router.push("/user-download").catch(() => {});
+            } else {
+              this.$router.push("/my-ebook").catch(() => {});
+            }
           },
           error => {
             this.loading = false;
@@ -99,11 +103,20 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
+    },
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    isAdmin() {
+      if (this.currentUser && this.currentUser.roles) {
+        return this.currentUser.roles.includes("ROLE_ADMIN");
+      }
+      return false;
     }
   },
   mounted() {
     if (this.loggedIn) {
-      this.$router.push("/my-ebook");
+      this.$router.push("/my-ebook").catch(() => {});
     }
   }
 };
