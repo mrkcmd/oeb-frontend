@@ -1,8 +1,8 @@
 <template>
   <div id="userdownload">
-    <v-container class="py-8 ml-8"
-      ><v-row>
-        <v-col>
+    <v-container
+      ><v-row align="center" justify="center">
+        <v-col cols="12" sm="12" md="12">
           <div class="headline font-weight-bold">User Downloaded</div>
         </v-col>
       </v-row>
