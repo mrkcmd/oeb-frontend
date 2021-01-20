@@ -1,7 +1,9 @@
+
+
 {
-    "root": "dist",
+    "root": "dist/",
     "clean_urls": true,
-    "router": {
-        "/**" : "index.html"
+    "routes": {
+      "/**": "index.html"
     }
-}
+  }
