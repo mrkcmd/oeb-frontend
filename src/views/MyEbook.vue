@@ -41,6 +41,7 @@
 
 <script>
 import EbookService from "@/services/EbookService";
+
 export default {
   data() {
     return {
@@ -48,7 +49,7 @@ export default {
       headers: [
         { text: "No", value: "count", align: "center" },
         { text: "Name", value: "name", align: "center" },
-        { text: "Purchased", value: "date", align: "center" },
+        { text: "Purchased", value: "purchased", align: "center" },
         { text: "Download", value: "download", align: "center" },
         {
           text: "Number of downloads",
@@ -123,8 +124,9 @@ export default {
 
     downloadFile(item) {
       this.ebook.name = item.name;
-      EbookService.download(this.name).then(res => {
-        console.log(res);
+      EbookService.getUrlDownload(this.ebook).then(url => {
+        console.log(url);
+        window.open(url, "_blank");
       });
       this.resetTimer();
     }
