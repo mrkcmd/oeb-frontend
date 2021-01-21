@@ -6,7 +6,7 @@
           <v-col>
             <div class="text-center text-h4 primary--text mb-6">
               <strong>
-                รายการ E-book ของฉัน
+                My E-book
               </strong>
             </div>
             <v-card elevation="6">
@@ -24,7 +24,13 @@
                 :headers="headers"
                 :items="ebookList"
                 :search="search"
-              ></v-data-table>
+                ><template v-if="isEbook" v-slot:[`item.download`]="{ item }">
+                  <v-btn small text color="info" @click="downloadFile(item)"
+                    ><v-icon small class="mr-2">fa fa-download</v-icon
+                    >Download</v-btn
+                  >
+                </template></v-data-table
+              >
             </v-card>
           </v-col>
         </v-row>
@@ -41,14 +47,22 @@ export default {
       search: "",
       headers: [
         { text: "No", value: "count", align: "center" },
-        { text: "Name", value: "name", align: "start" },
-        { text: "Purchased", value: "carbs", align: "start" },
-        { text: "Download", value: "protein", align: "start" },
-        { text: "Number of downloads", value: "iron", align: "start" }
+        { text: "Name", value: "name", align: "center" },
+        { text: "Purchased", value: "date", align: "center" },
+        { text: "Download", value: "download", align: "center" },
+        {
+          text: "Number of downloads",
+          value: "numberOfDownloads",
+          align: "center"
+        }
       ],
       ebookList: [{}],
       logoutTimer: "",
-      account: {}
+      account: {},
+      isEbook: false,
+      ebook: {
+        name: ""
+      }
     };
   },
   computed: {
@@ -68,21 +82,26 @@ export default {
     }
     if (this.currentUser && this.currentUser.roles && this.isAdmin === false) {
       this.account = this.currentUser;
-      console.log(this.account);
       this.setTimers();
     }
     this.retrieveEbooks();
   },
   methods: {
     retrieveEbooks() {
-      EbookService.getEbook(this.account).then(res => {
-        var count = 1;
-        this.ebookList = res.data;
-        this.ebookList.map(ebook => {
-          ebook.count = count;
-          count++;
+      EbookService.getEbook(this.account)
+        .then(res => {
+          var count = 1;
+          this.isEbook = true;
+          this.ebookList = res.data;
+          this.ebookList.map(ebook => {
+            ebook.count = count;
+            count++;
+          });
+        })
+        .catch(error => {
+          console.log(error);
+          this.isEbook = false;
         });
-      });
     },
     setTimers() {
       this.logoutTimer = setTimeout(() => {
@@ -102,7 +121,11 @@ export default {
       this.setTimers();
     },
 
-    downloadFile() {
+    downloadFile(item) {
+      this.ebook.name = item.name;
+      EbookService.download(this.name).then(res => {
+        console.log(res);
+      });
       this.resetTimer();
     }
   },

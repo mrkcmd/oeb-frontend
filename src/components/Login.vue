@@ -84,7 +84,7 @@ export default {
           () => {
             this.loading = false;
             if (this.isAdmin) {
-              this.$router.push("/user-download").catch(() => {});
+              this.$router.push("/users").catch(() => {});
             } else {
               this.$router.push("/my-ebook").catch(() => {});
             }

@@ -46,6 +46,17 @@
                       width="100%"
                       class="d-flex justify-start"
                       text
+                      @click="$router.push('/users').catch(() => {})"
+                      ><v-icon small class="mr-2">fa fa-users</v-icon>users
+                    </v-btn>
+                  </v-list-item>
+                  <v-divider v-if="isAdmin" class="mx-2"></v-divider>
+
+                  <v-list-item v-if="isAdmin">
+                    <v-btn
+                      width="100%"
+                      class="d-flex justify-start"
+                      text
                       @click="$router.push('/generate').catch(() => {})"
                       ><v-icon small class="mr-2">fa fa-user-plus</v-icon>add
                       new user</v-btn
@@ -124,6 +135,16 @@
             My Account : {{ currentUser.email }}
           </div>
           <v-divider class="mt-3"></v-divider>
+          <v-list-item v-if="isAdmin" class="white">
+            <v-btn
+              width="100%"
+              class="d-flex justify-start primary--text"
+              text
+              @click="$router.push('/users').catch(() => {})"
+              ><v-icon small class="mr-2">fa fa-users</v-icon>Users
+            </v-btn>
+          </v-list-item>
+          <v-divider v-if="isAdmin" class="mx-2"></v-divider>
 
           <v-list-item v-if="isAdmin" class="white">
             <v-btn

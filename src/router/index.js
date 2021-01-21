@@ -5,7 +5,7 @@ import Permission from "@/components/Permission.vue";
 import Login from "@/components/Login.vue";
 import Register from "@/components/Register.vue";
 import Generate from "@/components/GenerateUrl.vue";
-import UserDownload from "@/components/UserDownload.vue";
+import Users from "@/components/Users.vue";
 import store from "@/store/index";
 Vue.use(VueRouter);
 
@@ -26,7 +26,7 @@ const routes = [
     beforeEnter: (to, from, next) => {
       if (store.state.auth.user) {
         if (store.state.auth.user.roles.includes("ROLE_ADMIN")) {
-          next("/user-download");
+          next("/users");
         } else {
           next();
         }
@@ -73,9 +73,9 @@ const routes = [
     }
   },
   {
-    path: "/user-download",
-    name: "UserDownload",
-    component: UserDownload,
+    path: "/users",
+    name: "Users",
+    component: Users,
     beforeEnter: (to, from, next) => {
       if (store.state.auth.user) {
         if (store.state.auth.user.roles.includes("ROLE_ADMIN")) {
