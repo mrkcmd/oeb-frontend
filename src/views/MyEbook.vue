@@ -133,9 +133,11 @@ export default {
       this.ebook.name = item.name;
       EbookService.getUrlDownload(this.ebook).then(url => {
         window.open("", "_blank").location.href = "" + url.data;
-        EbookService.deleteFile(this.ebook);
-        this.resetTimer();
-        this.isDownloading = false;
+        setTimeout(() => {
+          EbookService.deleteFile(this.ebook);
+          this.resetTimer();
+          this.isDownloading = false;
+        }, 1500);
       });
     }
   },
