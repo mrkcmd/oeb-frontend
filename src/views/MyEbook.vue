@@ -25,7 +25,12 @@
                 :items="ebookList"
                 :search="search"
                 ><template v-if="isEbook" v-slot:[`item.download`]="{ item }">
-                  <v-btn small text color="info" @click="downloadFile(item)"
+                  <v-btn
+                    small
+                    text
+                    color="info"
+                    :disabled="isDownloading"
+                    @click="downloadFile(item)"
                     ><v-icon small class="mr-2">fa fa-download</v-icon
                     >Download</v-btn
                   >
@@ -63,7 +68,8 @@ export default {
       isEbook: false,
       ebook: {
         name: ""
-      }
+      },
+      isDownloading: false
     };
   },
   computed: {
@@ -123,12 +129,14 @@ export default {
     },
 
     downloadFile(item) {
+      this.isDownloading = true;
       this.ebook.name = item.name;
       EbookService.getUrlDownload(this.ebook).then(url => {
-        console.log(url);
-        window.open(url, "_blank");
+        window.open("", "_blank").location.href = "" + url.data;
+        EbookService.deleteFile(this.ebook);
+        this.resetTimer();
+        this.isDownloading = false;
       });
-      this.resetTimer();
     }
   },
   created() {

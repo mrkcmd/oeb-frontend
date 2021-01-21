@@ -6,7 +6,10 @@ class EbookService {
   }
 
   getUrlDownload(data) {
-    return API().get("/api/files/", data);
+    return API().post("/api/files", data);
+  }
+  deleteFile(data) {
+    return API().post("/api/deletefile", data);
   }
 }
 
