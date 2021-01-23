@@ -34,7 +34,7 @@ export default {
   methods: {
     generate() {
       GenerateService.generateUrl().then(() => {
-        let storageToken = JSON.parse(localStorage.getItem("token")).token;
+        let storageToken = JSON.parse(sessionStorage.getItem("token")).token;
         let generateUrlRegister = this.$router.resolve({
           name: "Register",
           params: { token: storageToken }

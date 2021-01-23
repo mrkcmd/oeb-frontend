@@ -10,7 +10,7 @@ class UserService {
       .post("api/auth/signin", data)
       .then(res => {
         if (res.data.accessToken) {
-          localStorage.setItem("user", JSON.stringify(res.data));
+          sessionStorage.setItem("user", JSON.stringify(res.data));
         }
         return res.data;
       });
@@ -19,14 +19,14 @@ class UserService {
     return API()
       .post("/api/auth/logout", user)
       .then(() => {
-        localStorage.removeItem("user");
+        sessionStorage.removeItem("user");
       });
   }
   autologout(user) {
     return API()
       .post("/api/auth/autologout", user)
       .then(() => {
-        localStorage.removeItem("user");
+        sessionStorage.removeItem("user");
       });
   }
 }
