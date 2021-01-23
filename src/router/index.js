@@ -6,6 +6,7 @@ import Login from "@/components/Login.vue";
 import Register from "@/components/Register.vue";
 import Generate from "@/components/GenerateUrl.vue";
 import Users from "@/components/Users.vue";
+import UserEbook from "@/components/UserEbook.vue";
 import store from "@/store/index";
 Vue.use(VueRouter);
 
@@ -76,6 +77,22 @@ const routes = [
     path: "/users",
     name: "Users",
     component: Users,
+    beforeEnter: (to, from, next) => {
+      if (store.state.auth.user) {
+        if (store.state.auth.user.roles.includes("ROLE_ADMIN")) {
+          next();
+        } else {
+          next("/");
+        }
+      } else {
+        next("/login");
+      }
+    }
+  },
+  {
+    path: "/users/:id",
+    name: "UserEbook",
+    component: UserEbook,
     beforeEnter: (to, from, next) => {
       if (store.state.auth.user) {
         if (store.state.auth.user.roles.includes("ROLE_ADMIN")) {

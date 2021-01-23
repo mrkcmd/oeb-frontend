@@ -87,10 +87,6 @@ export default {
     if (!this.currentUser) {
       this.$router.push("/login").catch(() => {});
     }
-    if (this.currentUser && this.currentUser.roles && this.isAdmin === false) {
-      this.account = this.currentUser;
-      this.setTimers();
-    }
     this.retrieveEbooks();
   },
   methods: {
@@ -112,16 +108,20 @@ export default {
     },
     setTimers() {
       this.logoutTimer = setTimeout(() => {
-        this.signout();
+        this.autologout();
       }, 1000 * 60 * 60);
     },
 
-    signout() {
+    autologout() {
       this.$store.dispatch("auth/autologout", this.currentUser).then(() => {
         this.$router.push("/login").catch(() => {});
       });
     },
-
+    signout() {
+      this.$store.dispatch("auth/signout", this.currentUser).then(() => {
+        this.$router.push("/login").catch(() => {});
+      });
+    },
     resetTimer() {
       clearTimeout(this.logoutTimer);
 
@@ -142,7 +142,10 @@ export default {
     }
   },
   created() {
-    window.addEventListener("unload", this.signout);
+    if (this.currentUser && this.currentUser.roles && this.isAdmin === false) {
+      this.account = this.currentUser;
+      this.setTimers();
+    }
   }
 };
 </script>
