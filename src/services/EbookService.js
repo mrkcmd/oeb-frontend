@@ -11,6 +11,9 @@ class EbookService {
   deleteFile(data) {
     return API().post("/api/deletefile", data);
   }
+  getLogDownload(data) {
+    return API().post("/api/logDownload", data);
+  }
 }
 
 export default new EbookService();

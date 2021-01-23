@@ -35,7 +35,7 @@ export default {
 
         {
           text: "Number of downloads",
-          value: "numberOfDownloads",
+          value: "downloaded",
           align: "center"
         }
       ],
