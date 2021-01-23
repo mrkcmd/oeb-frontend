@@ -5,7 +5,7 @@
         <v-row>
           <v-col>
             <div class="text-center text-h4 primary--text mb-6">
-              <strong> E-book </strong>
+              <strong> List e-book of {{ user.email }}</strong>
             </div>
             <v-card elevation="6">
               <v-data-table
@@ -30,7 +30,7 @@ export default {
       },
       headers: [
         { text: "No", value: "count", align: "center" },
-        { text: "User", value: "user", align: "center" },
+        { text: "User", value: "email", align: "center" },
         { text: "Ebook", value: "name", align: "center" },
 
         {
@@ -39,7 +39,8 @@ export default {
           align: "center"
         }
       ],
-      ebookList: [{}]
+      ebookList: [{}],
+      user: {}
     };
   },
   methods: {
@@ -47,12 +48,13 @@ export default {
       EbookService.getEbook(this.account)
         .then(res => {
           var count = 1;
-          this.ebookList = res.data;
+          this.ebookList = res.data.ebook;
+          this.user = res.data.account[0];
           this.ebookList.map(ebook => {
             ebook.count = count;
+            ebook.email = this.user.email;
             count++;
           });
-          console.log(res.data);
         })
         .catch(error => {
           console.log(error);
@@ -61,7 +63,6 @@ export default {
   },
   mounted() {
     this.retrieveEbooks();
-    console.log(this.account);
   }
 };
 </script>

@@ -95,7 +95,7 @@ export default {
         .then(res => {
           var count = 1;
           this.isEbook = true;
-          this.ebookList = res.data;
+          this.ebookList = res.data.ebook;
           this.ebookList.map(ebook => {
             ebook.count = count;
             count++;
