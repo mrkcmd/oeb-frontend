@@ -246,7 +246,7 @@ export default {
             this.resetTimer();
             this.isDownloading = false;
             this.refreshList();
-          }, 1000);
+          }, 2000);
         })
         .catch(error => {
           console.log(error);
