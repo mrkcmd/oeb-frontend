@@ -15,7 +15,7 @@
               <v-menu open-on-hover bottom offset-y>
                 <template v-slot:activator="{ on, attrs }">
                   <div
-                    class="text-subtitle2 mr-4  d-flex align-center mt-3"
+                    class="text-subtitle2 mr-4  d-flex align-center"
                     align="center"
                     color="primary"
                     dark
@@ -27,7 +27,7 @@
                     <v-icon small class="ml-2">fa fa-caret-down</v-icon>
                   </div>
                   <div
-                    class="text-subtitle2 mr-4  d-flex align-center mt-3"
+                    class="text-subtitle2 mr-4  d-flex align-center"
                     align="center"
                     color="primary"
                     dark
@@ -94,12 +94,6 @@
                 </v-list>
               </v-menu>
             </div>
-            <v-divider vertical class="mr-4"></v-divider>
-            <v-btn icon elevation="0" color="secondary lighten-4">
-              <v-badge color="error" content="1">
-                <v-icon>fas fa-bell</v-icon>
-              </v-badge>
-            </v-btn>
           </v-row>
 
           <v-row v-else class="mr-6">

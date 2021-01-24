@@ -53,7 +53,7 @@
         <v-card height="300px" elevation="0">
           <v-toolbar flat>
             <v-toolbar-title class="primary--text headline"
-              >Log Download</v-toolbar-title
+              >Download history</v-toolbar-title
             >
           </v-toolbar>
           <v-divider></v-divider>
@@ -73,13 +73,8 @@
         </v-card>
       </v-snackbar>
       <v-bottom-navigation class="hidden-md-and-up" app color="primary">
-        <v-btn>
-          <span class="primary--text">Notify</span>
-
-          <v-icon color="primary">fas fa-bell</v-icon>
-        </v-btn>
         <v-btn @click="dialog = true">
-          <span class="primary--text">Logs</span>
+          <span class="primary--text">History</span>
 
           <v-icon color="primary">fa fa-history</v-icon>
         </v-btn>
@@ -88,7 +83,7 @@
         <v-card height="300px" elevation="0">
           <v-toolbar flat>
             <v-toolbar-title class="primary--text headline"
-              >Log Download</v-toolbar-title
+              >Download history</v-toolbar-title
             >
           </v-toolbar>
           <v-divider></v-divider>
@@ -106,6 +101,39 @@
             </v-data-table>
             <v-divider></v-divider>
           </v-card-text>
+        </v-card>
+      </v-dialog>
+      <v-dialog v-model="notifyDownload" max-width="480" persistent>
+        <v-card>
+          <v-card-title class="headline">
+            <v-icon medium color="error darken-1" class="mr-2"
+              >fa fa-exclamation-triangle</v-icon
+            >
+            ดาวน์โหลดสำเร็จ
+          </v-card-title>
+
+          <v-card-text class="text-body-1 font-weight-black mt-2">
+            คุณได้ทำการดาวน์โหลด
+            <span class="error--text"> {{ this.ebook.name }} </span>
+            เป็นครั้งที่
+            <span class="error--text"> {{ this.ebook.downloaded }} </span>
+            โดยอุปกรณ์
+            <span class="error--text"> {{ this.ebook.ip }} </span>
+            เราได้ทำการบันทึกประวัติการดาวน์โหลดของคุณเอาไว้เรียบร้อยแล้ว
+            ขอบคุณสำหรับการดาวน์โหลด
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn
+              class="error darken-1 text-body-1"
+              text
+              @click="notifyDownload = false"
+            >
+              รับทราบ
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-dialog>
     </v-app>
@@ -136,7 +164,7 @@ export default {
         { text: "Date", value: "date", align: "center" },
         { text: "IP", value: "ip", align: "center" }
       ],
-      ebookList: [{}],
+      ebookList: [],
       logoutTimer: "",
       account: {},
       isEbook: false,
@@ -147,11 +175,12 @@ export default {
         ip: "",
         downloaded: ""
       },
-      logDownloadList: [{}],
+      logDownloadList: [],
       isDownloading: false,
       clientIp: "",
       sortBy: "date",
-      sortDesc: true
+      sortDesc: true,
+      notifyDownload: false
     };
   },
   computed: {
@@ -237,8 +266,6 @@ export default {
       this.ebook.accountId = this.account.id;
       this.ebook.ip = this.clientIp;
       this.ebook.downloaded = item.downloaded + 1;
-      console.log(item);
-      console.log(this.ebook);
       EbookService.getUrlDownload(this.ebook)
         .then(url => {
           setTimeout(() => {
@@ -250,6 +277,9 @@ export default {
             this.resetTimer();
             this.isDownloading = false;
             this.refreshList();
+            if (this.ebook.downloaded > 5) {
+              this.notifyDownload = true;
+            }
           }, 1500);
         })
         .catch(error => {

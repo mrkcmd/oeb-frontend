@@ -6,7 +6,7 @@ class GenerateService {
       .post("api/generateUrl")
       .then(res => {
         if (res.data.token) {
-          sessionStorage.setItem("token", JSON.stringify(res.data));
+          localStorage.setItem("token", JSON.stringify(res.data));
         }
       });
   }
