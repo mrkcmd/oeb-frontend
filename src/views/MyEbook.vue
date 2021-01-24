@@ -144,7 +144,8 @@ export default {
         id: "",
         name: "",
         accountId: "",
-        ip: ""
+        ip: "",
+        downloaded: ""
       },
       logDownloadList: [{}],
       isDownloading: false,
@@ -235,18 +236,21 @@ export default {
       this.ebook.name = item.name;
       this.ebook.accountId = this.account.id;
       this.ebook.ip = this.clientIp;
+      this.ebook.downloaded = item.downloaded + 1;
+      console.log(item);
+      console.log(this.ebook);
       EbookService.getUrlDownload(this.ebook)
         .then(url => {
           setTimeout(() => {
             window.open("", "_blank").location.href = "" + url.data;
-          }, 500);
+          }, 1000);
 
           setTimeout(() => {
             EbookService.deleteFile(this.ebook);
             this.resetTimer();
             this.isDownloading = false;
             this.refreshList();
-          }, 2000);
+          }, 1500);
         })
         .catch(error => {
           console.log(error);
