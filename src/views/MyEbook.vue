@@ -50,7 +50,7 @@
         right
         light
       >
-        <v-card height="300px" elevation="0">
+        <v-card height="200px" elevation="0">
           <v-toolbar flat>
             <v-toolbar-title class="primary--text headline"
               >Download history</v-toolbar-title
