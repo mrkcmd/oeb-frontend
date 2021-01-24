@@ -150,7 +150,7 @@ export default {
       isDownloading: false,
       clientIp: "",
       sortBy: "date",
-      sortDesc: false
+      sortDesc: true
     };
   },
   computed: {
@@ -203,6 +203,10 @@ export default {
           this.isEbook = false;
         });
     },
+    refreshList() {
+      this.retrieveEbooks();
+      this.retrieveLogDownload();
+    },
     setTimers() {
       this.logoutTimer = setTimeout(() => {
         this.autologout();
@@ -231,15 +235,18 @@ export default {
       this.ebook.name = item.name;
       this.ebook.accountId = this.account.id;
       this.ebook.ip = this.clientIp;
-      //   console.log(this.ebook);
       EbookService.getUrlDownload(this.ebook)
         .then(url => {
-          window.open("", "_blank").location.href = "" + url.data;
+          setTimeout(() => {
+            window.open("", "_blank").location.href = "" + url.data;
+          }, 500);
+
           setTimeout(() => {
             EbookService.deleteFile(this.ebook);
             this.resetTimer();
             this.isDownloading = false;
-          }, 1500);
+            this.refreshList();
+          }, 500);
         })
         .catch(error => {
           console.log(error);

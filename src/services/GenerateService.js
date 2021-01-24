@@ -3,7 +3,7 @@ import API from "@/services/API";
 class GenerateService {
   generateUrl() {
     return API()
-      .post("/api/generateUrl")
+      .post("api/generateUrl")
       .then(res => {
         if (res.data.token) {
           sessionStorage.setItem("token", JSON.stringify(res.data));
@@ -11,7 +11,7 @@ class GenerateService {
       });
   }
   deleteToken(token) {
-    return API().post("/api/deleteUrl", token);
+    return API().post("api/deleteUrl", token);
   }
 }
 export default new GenerateService();

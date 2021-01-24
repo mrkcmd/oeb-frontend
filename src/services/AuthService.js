@@ -17,14 +17,14 @@ class UserService {
   }
   signout(user) {
     return API()
-      .post("/api/auth/logout", user)
+      .post("api/auth/logout", user)
       .then(() => {
         sessionStorage.removeItem("user");
       });
   }
   autologout(user) {
     return API()
-      .post("/api/auth/autologout", user)
+      .post("api/auth/autologout", user)
       .then(() => {
         sessionStorage.removeItem("user");
       });
