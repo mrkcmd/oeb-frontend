@@ -11,10 +11,18 @@
                     E-book Online
                   </div>
                 </v-card-text>
-                <div class="text-center mt-3 mb-6">
+                <div class="text-center mt-3 mb-3">
                   <v-btn color="primary" @click="generate()">
-                    Generate url</v-btn
+                    Generate USER
+                  </v-btn>
+                </div>
+                <div class="text-center mb-6">
+                  <v-btn
+                    color="primary"
+                    @click="$router.push('/registerAdmin')"
                   >
+                    Generate ADMIN
+                  </v-btn>
                 </div>
               </v-col>
             </v-row>

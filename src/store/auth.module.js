@@ -22,6 +22,18 @@ export const auth = {
         }
       );
     },
+    signupAdmin({ commit }, user) {
+      return AuthService.signupAdmin(user).then(
+        response => {
+          commit("signupSuccess");
+          return Promise.resolve(response.data);
+        },
+        error => {
+          commit("signupFailure");
+          return Promise.reject(error);
+        }
+      );
+    },
     signin({ commit }, user) {
       return AuthService.signin(user).then(
         user => {

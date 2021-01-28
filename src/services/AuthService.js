@@ -4,7 +4,9 @@ class UserService {
   signup(data) {
     return API().post("api/auth/signup", data);
   }
-
+  signupAdmin(data) {
+    return API().post("api/auth/signupAdmin", data);
+  }
   signin(data) {
     return API()
       .post("api/auth/signin", data)

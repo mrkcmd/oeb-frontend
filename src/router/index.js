@@ -8,6 +8,7 @@ import Generate from "@/components/GenerateUrl.vue";
 import Users from "@/components/Users.vue";
 import UserEbook from "@/components/UserEbook.vue";
 import store from "@/store/index";
+import RegisterAdmin from "@/components/RegisterAdmin.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -93,6 +94,22 @@ const routes = [
     path: "/users/:id",
     name: "UserEbook",
     component: UserEbook,
+    beforeEnter: (to, from, next) => {
+      if (store.state.auth.user) {
+        if (store.state.auth.user.roles.includes("ROLE_ADMIN")) {
+          next();
+        } else {
+          next("/");
+        }
+      } else {
+        next("/login");
+      }
+    }
+  },
+  {
+    path: "/registerAdmin",
+    name: "registerAdmin",
+    component: RegisterAdmin,
     beforeEnter: (to, from, next) => {
       if (store.state.auth.user) {
         if (store.state.auth.user.roles.includes("ROLE_ADMIN")) {

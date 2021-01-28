@@ -5,7 +5,7 @@
         <v-container class="mt-12">
           <v-row>
             <v-col>
-              <div class="text-center text-h4 primary--text mb-6">
+              <div class="text-center text-h4 fourth--text mb-6">
                 <strong>
                   My E-book
                 </strong>
@@ -52,7 +52,7 @@
       >
         <v-card height="200px" elevation="0">
           <v-toolbar flat>
-            <v-toolbar-title class="primary--text headline"
+            <v-toolbar-title class="fourth--text headline"
               >Download history</v-toolbar-title
             >
           </v-toolbar>
@@ -63,7 +63,6 @@
               :items="logDownloadList"
               hide-default-footer
               hide-default-header
-              class="primary--text"
               :sort-by.sync="sortBy"
               :sort-desc.sync="sortDesc"
             >
@@ -72,17 +71,17 @@
           </v-card-text>
         </v-card>
       </v-snackbar>
-      <v-bottom-navigation class="hidden-md-and-up" app color="primary">
+      <v-bottom-navigation class="hidden-md-and-up" app color="fourth">
         <v-btn @click="dialog = true">
-          <span class="primary--text">History</span>
+          <span class="fourth--text">History</span>
 
-          <v-icon color="primary">fa fa-history</v-icon>
+          <v-icon color="fourth">fa fa-history</v-icon>
         </v-btn>
       </v-bottom-navigation>
       <v-dialog v-model="dialog" max-width="480">
         <v-card height="300px" elevation="0">
           <v-toolbar flat>
-            <v-toolbar-title class="primary--text headline"
+            <v-toolbar-title class="fourth--text headline"
               >Download history</v-toolbar-title
             >
           </v-toolbar>
@@ -93,7 +92,6 @@
               :items="logDownloadList"
               hide-default-footer
               hide-default-header
-              class="primary--text"
               :sort-by.sync="sortBy"
               :sort-desc.sync="sortDesc"
               mobile-breakpoint="0"
