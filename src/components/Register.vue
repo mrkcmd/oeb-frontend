@@ -105,7 +105,8 @@ export default {
         lastname: "",
         email: "",
         password: "",
-        token: ""
+        token: "",
+        ebooks: JSON.parse(this.$route.params.ebooks)
       },
       firstnameRules: [v => !!v || "Please enter your firstname."],
       lastnameRules: [v => !!v || "Please enter your lastname."],

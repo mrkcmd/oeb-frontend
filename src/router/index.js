@@ -54,7 +54,7 @@ const routes = [
     }
   },
   {
-    path: "/register/:token",
+    path: "/register/:token/:ebooks",
     name: "Register",
     component: Register
   },
