@@ -2,11 +2,19 @@
   <v-app>
     <v-card flat tile>
       <v-toolbar dark color="primary" v-if="isAdmin">
+        <v-img
+          class="mx-2"
+          src="../assets/taksa.jpg"
+          max-height="23"
+          max-width="23"
+          contain
+        ></v-img>
+
         <v-toolbar-title
-          class="ml-6"
+          class="ml-2"
           style="cursor:pointer"
           @click="$router.push('/').catch(() => {})"
-          ><strong>E-book Online</strong></v-toolbar-title
+          ><strong>TAKSA ONLINE</strong></v-toolbar-title
         >
         <v-spacer></v-spacer>
         <div class="hidden-sm-and-down">
@@ -107,11 +115,18 @@
         </div>
       </v-toolbar>
       <v-toolbar dark color="fourth" v-else>
+        <v-img
+          class="mx-2"
+          src="../assets/taksa.jpg"
+          max-height="23"
+          max-width="23"
+          contain
+        ></v-img>
         <v-toolbar-title
-          class="ml-6 fourth"
+          class="ml-2 fourth"
           style="cursor:pointer"
           @click="$router.push('/').catch(() => {})"
-          ><strong>E-book Online</strong></v-toolbar-title
+          ><strong>TAKSA ONLINE</strong></v-toolbar-title
         >
         <v-spacer></v-spacer>
         <div class="hidden-sm-and-down">
@@ -218,7 +233,8 @@
       temporary
       app
       dark
-      class="hidden-md-and-up primary"
+      class="hidden-md-and-up"
+      v-bind:color="navColor"
     >
       <div v-if="currentUser">
         <v-list nav>
@@ -320,7 +336,8 @@ export default {
 
   data() {
     return {
-      drawer: false
+      drawer: false,
+      navColor: ""
     };
   },
   methods: {
@@ -339,6 +356,13 @@ export default {
         return this.currentUser.roles.includes("ROLE_ADMIN");
       }
       return false;
+    }
+  },
+  mounted() {
+    if (this.isAdmin) {
+      this.navColor = "primary";
+    } else {
+      this.navColor = "fourth";
     }
   }
 };
