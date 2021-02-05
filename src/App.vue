@@ -11,7 +11,6 @@
         ></v-img>
 
         <v-toolbar-title
-          class="ml-2"
           style="cursor:pointer"
           @click="$router.push('/').catch(() => {})"
           ><strong>TAKSA ONLINE</strong></v-toolbar-title
@@ -123,7 +122,6 @@
           contain
         ></v-img>
         <v-toolbar-title
-          class="ml-2 fourth"
           style="cursor:pointer"
           @click="$router.push('/').catch(() => {})"
           ><strong>TAKSA ONLINE</strong></v-toolbar-title
