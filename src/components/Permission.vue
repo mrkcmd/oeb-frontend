@@ -8,7 +8,7 @@
               <v-col cols="12" md="10">
                 <v-card-text class="mt-8">
                   <div class="text-h5 text-center primary--text">
-                    E-book Online
+                    Taksa Online
                   </div>
                   <v-form ref="form" class="mx-12 mt-10">
                     <v-autocomplete

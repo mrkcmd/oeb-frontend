@@ -8,7 +8,7 @@
               <v-col cols="12" md="10">
                 <v-card-text class="mt-8">
                   <div class="text-h5 text-center primary--text">
-                    E-book Online
+                    Taksa Online
                   </div>
                 </v-card-text>
                 <v-form ref="form" class="mx-12 mt-10">
@@ -70,7 +70,7 @@
                   <v-dialog v-model="dialog" persistent max-width="290">
                     <v-card>
                       <v-card-title class="text-subtitle-1">
-                        E-book Online
+                        Taksa Online
                       </v-card-title>
                       <v-card-text class="text-subtitle-2">
                         {{ message }}
