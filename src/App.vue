@@ -231,8 +231,8 @@
       temporary
       app
       dark
-      class="hidden-md-and-up"
-      v-bind:color="navColor"
+      class="hidden-md-and-up primary"
+      v-if="isAdmin"
     >
       <div v-if="currentUser">
         <v-list nav>
@@ -322,6 +322,103 @@
         </v-list>
       </div>
     </v-navigation-drawer>
+    <v-navigation-drawer
+      v-model="drawer"
+      bottom
+      temporary
+      app
+      dark
+      class="hidden-md-and-up fourth"
+      v-else
+    >
+      <div v-if="currentUser">
+        <v-list nav>
+          <div
+            class="text-h6 d-flex justify-start mt-3 ml-4"
+            dark
+            v-if="isAdmin"
+          >
+            Admin : {{ currentUser.email }}
+          </div>
+
+          <div class="text-h6 d-flex justify-start mt-3 ml-4" dark v-else>
+            My Account : {{ currentUser.email }}
+          </div>
+          <v-divider class="mt-3"></v-divider>
+          <v-list-item v-if="isAdmin" class="white">
+            <v-btn
+              width="100%"
+              class="d-flex justify-start fourth--text"
+              text
+              @click="$router.push('/users').catch(() => {})"
+              ><v-icon small class="mr-2">fa fa-users</v-icon>Users
+            </v-btn>
+          </v-list-item>
+          <v-divider v-if="isAdmin" class="mx-2"></v-divider>
+
+          <v-list-item v-if="isAdmin" class="white">
+            <v-btn
+              width="100%"
+              class="d-flex justify-start fourth--text"
+              text
+              @click="$router.push('/generate').catch(() => {})"
+              ><v-icon small class="mr-2">fa fa-user-plus</v-icon>add new
+              user</v-btn
+            >
+          </v-list-item>
+          <v-divider v-if="isAdmin" class="mx-2"></v-divider>
+          <v-list-item v-if="isAdmin" class="white">
+            <v-btn
+              width="100%"
+              class="d-flex justify-start fourth--text"
+              text
+              @click="$router.push('/permission').catch(() => {})"
+              ><v-icon small class="mr-3 ">fas fa-book</v-icon>
+              Permission e-book
+            </v-btn>
+          </v-list-item>
+          <v-list-item v-if="!isAdmin" class="white">
+            <v-list-item-title
+              @click="$router.push('/my-ebook').catch(() => {})"
+              ><v-btn
+                text
+                width="100%"
+                class="d-flex justify-start fourth--text"
+                ><v-icon small class="mr-2">fas fa-book</v-icon> MY
+                E-book</v-btn
+              ></v-list-item-title
+            >
+          </v-list-item>
+          <v-divider class="mx-2"></v-divider>
+          <v-list-item class="white">
+            <v-list-item-title @click="signout()"
+              ><v-btn
+                text
+                width="100%"
+                class="d-flex justify-start fourth--text"
+                ><v-icon small class="mr-2">fas fa-sign-out-alt</v-icon> Sign
+                out</v-btn
+              ></v-list-item-title
+            >
+          </v-list-item>
+          <v-divider></v-divider>
+        </v-list>
+      </div>
+      <div v-else>
+        <v-list nav>
+          <v-list-item class="white">
+            <v-btn
+              text
+              width="100%"
+              class="fourth--text"
+              @click="$router.push('/login').catch(() => {})"
+              >Login</v-btn
+            >
+          </v-list-item>
+          <v-divider></v-divider>
+        </v-list>
+      </div>
+    </v-navigation-drawer>
     <v-main>
       <router-view></router-view>
     </v-main>
@@ -334,8 +431,7 @@ export default {
 
   data() {
     return {
-      drawer: false,
-      navColor: ""
+      drawer: false
     };
   },
   methods: {
@@ -354,13 +450,6 @@ export default {
         return this.currentUser.roles.includes("ROLE_ADMIN");
       }
       return false;
-    }
-  },
-  mounted() {
-    if (this.isAdmin) {
-      this.navColor = "primary";
-    } else {
-      this.navColor = "fourth";
     }
   }
 };
