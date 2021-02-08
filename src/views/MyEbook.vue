@@ -110,15 +110,19 @@
             ดาวน์โหลดสำเร็จ
           </v-card-title>
 
-          <v-card-text class="text-body-1 font-weight-black mt-2">
+          <v-card-text class="text-h6 font-weight-black mt-2">
             คุณได้ทำการดาวน์โหลด
             <span class="error--text"> {{ this.ebook.name }} </span>
             เป็นครั้งที่
             <span class="error--text"> {{ this.ebook.downloaded }} </span>
             โดยอุปกรณ์
             <span class="error--text"> {{ this.ebook.ip }} </span>
-            เราได้ทำการบันทึกประวัติการดาวน์โหลดของคุณเอาไว้เรียบร้อยแล้ว
-            ขอบคุณสำหรับการดาวน์โหลด
+            สงวนลิขสิทธิ์โดย TaksaOnline
+            <span class="error--text">
+              ห้ามมิให้ผู้ใดลอกเลียนแบบหรือทำซ้ำ
+              หรือส่งต่อโดยมิได้รับอนุญาตทุกประการ ฝ่าฝืนมีโทษตามกฎหมาย
+              หรือถ้านักกฎหมายไปไม่ถึงตัว คำสาปแช่งไปถึงก่อนแน่นอน!!</span
+            >
           </v-card-text>
 
           <v-card-actions>
