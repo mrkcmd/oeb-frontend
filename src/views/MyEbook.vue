@@ -269,10 +269,10 @@ export default {
       this.ebook.ip = this.clientIp;
       this.ebook.downloaded = item.downloaded + 1;
       EbookService.getUrlDownload(this.ebook)
-        .then(url => {
+        .then(() => {
           setTimeout(() => {
-            window.open("", "_blank").location.href = "" + url.data;
-          }, 1000);
+            EbookService.download(this.ebook.name);
+          }, 0);
 
           setTimeout(() => {
             EbookService.deleteFile(this.ebook);
@@ -282,7 +282,7 @@ export default {
             if (this.ebook.downloaded > 5) {
               this.notifyDownload = true;
             }
-          }, 1500);
+          }, 1000);
         })
         .catch(error => {
           console.log(error);
