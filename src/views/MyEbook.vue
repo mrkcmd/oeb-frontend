@@ -270,11 +270,7 @@ export default {
       this.ebook.downloaded = item.downloaded + 1;
       EbookService.getUrlDownload(this.ebook)
         .then(() => {
-          setTimeout(() => {
-            EbookService.download(this.ebook.name);
-          }, 0);
-
-          setTimeout(() => {
+          EbookService.download(this.ebook.name).then(() => {
             EbookService.deleteFile(this.ebook);
             this.resetTimer();
             this.isDownloading = false;
@@ -282,7 +278,7 @@ export default {
             if (this.ebook.downloaded > 5) {
               this.notifyDownload = true;
             }
-          }, 1000);
+          });
         })
         .catch(error => {
           console.log(error);
